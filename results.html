@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b0d12">
+    <meta name="description" content="Solana token market, holder distribution, and research links.">
+    <title>Token research — MemeHub</title>
+    <script>
+      if (window.location.hostname === "127.0.0.1") {
+        const localUrl = new URL(window.location.href);
+        localUrl.hostname = "localhost";
+        window.location.replace(localUrl.href);
+      }
+
+      const transitionKey = "memehub-search-origin";
+      const savedOrigin = sessionStorage.getItem(transitionKey);
+      if (savedOrigin) {
+        sessionStorage.removeItem(transitionKey);
+        const origin = JSON.parse(savedOrigin);
+        const validOrigin = [origin.x, origin.y, origin.width, origin.height, origin.timestamp, origin.viewportWidth].every(Number.isFinite)
+          && origin.width > 0
+          && origin.height > 0
+          && origin.viewportWidth === window.innerWidth
+          && Date.now() - origin.timestamp >= 0
+          && Date.now() - origin.timestamp < 5000;
+        if (validOrigin) {
+          document.documentElement.dataset.searchOrigin = savedOrigin;
+          document.documentElement.classList.add("search-transition-ready", "search-transition-pending");
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./app.js" defer></script>
+  </head>
+  <body class="results-page">
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="MemeHub home">
+          <span class="brand-mark" aria-hidden="true">M</span>
+          <span>Meme<span class="brand-accent">Hub</span></span>
+        </a>
+        <div class="topbar-right">
+          <span class="network-indicator"><span></span> SOLANA RESEARCH</span>
+          <a class="top-link" href="https://solscan.io/" target="_blank" rel="noreferrer">Solscan <span aria-hidden="true">↗</span></a>
+        </div>
+      </header>
+
+      <main>
+        <form id="scan-form" class="search-form results-search" action="./results.html" method="get" novalidate>
+          <label class="sr-only" for="ca-input">Solana token contract address</label>
+          <span class="search-icon" aria-hidden="true">⌕</span>
+          <input id="ca-input" name="ca" type="text" spellcheck="false" autocomplete="off" required
+            placeholder="Paste a Solana contract address…" aria-describedby="search-hint">
+          <button id="scan-button" type="submit"><span>Scan token</span><span aria-hidden="true">→</span></button>
+        </form>
+        <p class="search-hint results-search-hint" id="search-hint">Solana mint address · Read-only research · No wallet connection</p>
+        <div id="status-message" class="status-message results-status" role="status" aria-live="polite"></div>
+
+        <section id="results" class="results" aria-label="Token research results">
+          <div class="token-heading">
+            <div class="token-identity">
+              <div id="token-avatar" class="token-avatar" aria-hidden="true">?</div>
+              <div>
+                <div class="token-name-line">
+                  <h2 id="token-name">Token</h2>
+                  <span id="token-symbol" class="symbol-chip">—</span>
+                </div>
+                <button id="copy-ca" class="ca-copy" type="button" title="Copy contract address">
+                  <span id="token-ca"></span><span aria-hidden="true">▢</span>
+                </button>
+              </div>
+            </div>
+            <div class="token-actions">
+              <a id="solscan-link" class="button button-secondary" target="_blank" rel="noreferrer">View on Solscan <span aria-hidden="true">↗</span></a>
+              <a id="dex-link" class="button button-primary" target="_blank" rel="noreferrer">Open DEX Screener <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+
+          <div class="metrics-grid">
+            <article class="metric-card">
+              <div class="metric-label">PRICE <span class="metric-icon">◈</span></div>
+              <div id="metric-price" class="metric-value">—</div>
+              <div class="metric-caption">USD per token</div>
+            </article>
+            <article class="metric-card">
+              <div class="metric-label">MARKET CAP <span class="metric-icon">▤</span></div>
+              <div id="metric-market-cap" class="metric-value">—</div>
+              <div class="metric-caption">Reported by DEX Screener</div>
+            </article>
+            <article class="metric-card">
+              <div class="metric-label">LIQUIDITY <span class="metric-icon">◌</span></div>
+              <div id="metric-liquidity" class="metric-value">—</div>
+              <div class="metric-caption">Selected highest-liquidity pair</div>
+            </article>
+            <article class="metric-card">
+              <div class="metric-label">24H VOLUME <span class="metric-icon">↗</span></div>
+              <div id="metric-volume" class="metric-value">—</div>
+              <div id="metric-change" class="metric-caption">Reported by DEX Screener</div>
+            </article>
+          </div>
+
+          <div class="content-grid">
+            <section class="panel pnl-panel" aria-labelledby="pnl-heading">
+              <div class="panel-heading">
+                <div>
+                  <div class="section-kicker">TRADER PERFORMANCE</div>
+                  <h3 id="pnl-heading">Top PnL change</h3>
+                </div>
+                <span class="pnl-platform">PUMP.FUN ONLY</span>
+              </div>
+              <p class="panel-description">Planned scope: pump.fun and PumpSwap trades for this token. FOMO is not included.</p>
+              <div class="pnl-periods" role="group" aria-label="PnL time range">
+                <button class="pnl-period" type="button" data-pnl-period="1h" aria-pressed="false">1h</button>
+                <button class="pnl-period" type="button" data-pnl-period="24h" aria-pressed="true">24h</button>
+                <button class="pnl-period" type="button" data-pnl-period="7d" aria-pressed="false">7 days</button>
+                <button class="pnl-period" type="button" data-pnl-period="30d" aria-pressed="false">30 days</button>
+              </div>
+              <div class="pnl-empty" role="status" aria-live="polite">
+                <span class="pnl-empty-icon" aria-hidden="true">↗</span>
+                <strong>PnL data isn’t connected yet</strong>
+                <span>There are no verified pump.fun-specific rankings to show for <span id="pnl-period-label">24h</span>.</span>
+              </div>
+              <div class="panel-footnote">The 30-day option is a rolling month. No estimated or cross-venue PnL is shown.</div>
+            </section>
+
+            <section class="panel map-panel">
+              <div class="panel-heading">
+                <div>
+                  <div class="section-kicker">WALLET CONNECTIONS</div>
+                  <h3>Holder map</h3>
+                </div>
+                <span class="map-provider">BUBBLEMAPS</span>
+              </div>
+              <div id="map-placeholder" class="map-placeholder">
+                <div class="map-orbit orbit-one"></div>
+                <div class="map-orbit orbit-two"></div>
+                <div class="map-center">M</div>
+                <p>Scan a token to load its holder map.</p>
+              </div>
+              <iframe id="bubblemap-frame" class="bubblemap-frame is-hidden" title="Bubblemaps Solana holder map" allow="clipboard-write" loading="lazy"></iframe>
+              <p class="panel-footnote">Bubblemaps data availability varies by token. Demo partner ID is for local testing; check integration terms before publishing.</p>
+            </section>
+          </div>
+
+          <section class="panel research-panel">
+            <div class="panel-heading research-heading">
+              <div>
+                <div class="section-kicker">KEEP DIGGING</div>
+                <h3>Research this token</h3>
+              </div>
+              <p class="panel-description">Open the address on other services. Social results depend on posts mentioning the exact mint.</p>
+            </div>
+            <div class="research-links">
+              <a id="j7-link" class="research-link" href="https://j7tracker.io/" target="_blank" rel="noreferrer">
+                <span class="research-icon j7-icon">J7</span><span><strong>J7Tracker</strong><small>Open tracker</small></span><span class="link-arrow">↗</span>
+              </a>
+              <a id="x-link" class="research-link" target="_blank" rel="noreferrer">
+                <span class="research-icon x-icon">𝕏</span><span><strong>X conversation</strong><small>Search this contract</small></span><span class="link-arrow">↗</span>
+              </a>
+              <a id="pair-link" class="research-link" target="_blank" rel="noreferrer">
+                <span class="research-icon pair-icon">⌁</span><span><strong>Trading pair</strong><small>Open selected pair</small></span><span class="link-arrow">↗</span>
+              </a>
+            </div>
+          </section>
+
+          <aside class="disclaimer">
+            <span class="disclaimer-icon">i</span>
+            <p><strong>Research, not a safety verdict.</strong> Market data is not proof a token is safe or malicious, and no pump.fun-specific PnL rankings are connected yet. Verify pool and authority details on source explorers.</p>
+            <span id="updated-at" class="updated-at"></span>
+          </aside>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>MEMEHUB <span class="footer-dot">·</span> INDEPENDENT RESEARCH</span>
+        <span>READ-ONLY DATA <span class="footer-dot">·</span> NOT FINANCIAL ADVICE</span>
+      </footer>
+    </div>
+  </body>
+</html>

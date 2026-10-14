@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b0d12">
+    <meta name="description" content="A focused Solana token research dashboard for market data, holder distribution, and source links.">
+    <title>MemeHub — Token research</title>
+    <script>
+      if (window.location.hostname === "127.0.0.1") {
+        const localUrl = new URL(window.location.href);
+        localUrl.hostname = "localhost";
+        window.location.replace(localUrl.href);
+      }
+    </script>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./app.js" defer></script>
+  </head>
+  <body class="home-page">
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="MemeHub home">
+          <span class="brand-mark" aria-hidden="true">M</span>
+          <span>Meme<span class="brand-accent">Hub</span></span>
+        </a>
+        <div class="topbar-right">
+          <span class="network-indicator"><span></span> SOLANA RESEARCH</span>
+          <a class="top-link" href="https://solscan.io/" target="_blank" rel="noreferrer">Solscan <span aria-hidden="true">↗</span></a>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div class="eyebrow"><span class="eyebrow-line"></span> YOUR ON-CHAIN RESEARCH DESK</div>
+          <h1>Do your own <span>trenching.</span></h1>
+          <p class="hero-copy">One contract address. Market context, holder distribution, and research links in one place.</p>
+
+          <form id="scan-form" class="search-form home-search" action="./results.html" method="get" novalidate>
+            <label class="sr-only" for="ca-input">Solana token contract address</label>
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <input id="ca-input" name="ca" type="text" spellcheck="false" autocomplete="off" required
+              placeholder="Paste a Solana contract address…" aria-describedby="search-hint">
+            <button id="scan-button" type="submit"><span>Scan token</span><span aria-hidden="true">→</span></button>
+          </form>
+          <p class="search-hint" id="search-hint">Solana mint address · Read-only research · No wallet connection</p>
+          <div id="status-message" class="status-message" role="status" aria-live="polite"></div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>MEMEHUB <span class="footer-dot">·</span> INDEPENDENT RESEARCH</span>
+        <span>READ-ONLY DATA <span class="footer-dot">·</span> NOT FINANCIAL ADVICE</span>
+      </footer>
+    </div>
+  </body>
+</html>
